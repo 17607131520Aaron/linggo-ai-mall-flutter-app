@@ -8,76 +8,279 @@ class ProfilePage extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('个人中心'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  radius: 28,
-                  backgroundColor: theme.colorScheme.primaryContainer,
-                  child: Icon(
-                    Icons.person,
-                    color: theme.colorScheme.primary,
-                    size: 32,
+      backgroundColor: const Color(0xFFF5F5F5),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 12),
+
+              // 顶部用户信息卡片（参考截图的粉色背景）
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    gradient: const LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0xFFFF7D7D),
+                        Color(0xFFFF9E9E),
+                      ],
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const CircleAvatar(
+                            radius: 28,
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.person,
+                              color: Color(0xFFFF7D7D),
+                              size: 32,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text(
+                                '用户昵称',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                'ID: user123',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.white70,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+
+                      // 我的订单 + 4 个状态入口
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text(
+                            '我的订单',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '查看全部 >',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        children: const [
+                          _OrderStatusItem(
+                            icon: Icons.payments_outlined,
+                            label: '待付款',
+                            badgeCount: 2,
+                          ),
+                          _OrderStatusItem(
+                            icon: Icons.inventory_2_outlined,
+                            label: '待发货',
+                            badgeCount: 1,
+                          ),
+                          _OrderStatusItem(
+                            icon: Icons.local_shipping_outlined,
+                            label: '待收货',
+                            badgeCount: 3,
+                          ),
+                          _OrderStatusItem(
+                            icon: Icons.rate_review_outlined,
+                            label: '待评价',
+                            badgeCount: 5,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      '未登录用户',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+              ),
+
+              const SizedBox(height: 12),
+
+              // 下方功能列表（收货地址 / 优惠券 / 我的收藏 / 浏览记录 / 联系客服 / 设置 / 消息通知 / 我的钱包）
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    _buildProfileItem(
+                      context,
+                      icon: Icons.place_outlined,
+                      title: '收货地址',
                     ),
-                    SizedBox(height: 4),
-                    Text(
-                      '点击登录后可同步购物车和订单信息',
-                      style: TextStyle(fontSize: 13),
+                    const Divider(height: 1),
+                    _buildProfileItem(
+                      context,
+                      icon: Icons.card_giftcard_outlined,
+                      title: '优惠券',
+                    ),
+                    const Divider(height: 1),
+                    _buildProfileItem(
+                      context,
+                      icon: Icons.star_border,
+                      title: '我的收藏',
+                    ),
+                    const Divider(height: 1),
+                    _buildProfileItem(
+                      context,
+                      icon: Icons.visibility_outlined,
+                      title: '浏览记录',
+                    ),
+                    const Divider(height: 1),
+                    _buildProfileItem(
+                      context,
+                      icon: Icons.support_agent_outlined,
+                      title: '联系客服',
+                    ),
+                    const Divider(height: 1),
+                    _buildProfileItem(
+                      context,
+                      icon: Icons.settings_outlined,
+                      title: '设置',
+                    ),
+                    const Divider(height: 1),
+                    _buildProfileItem(
+                      context,
+                      icon: Icons.notifications_none,
+                      title: '消息通知',
+                    ),
+                    const Divider(height: 1),
+                    _buildProfileItem(
+                      context,
+                      icon: Icons.account_balance_wallet_outlined,
+                      title: '我的钱包',
+                      isLast: true,
                     ),
                   ],
                 ),
-              ],
-            ),
-            const SizedBox(height: 24),
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
               ),
-              child: Column(
-                children: const [
-                  ListTile(
-                    leading: Icon(Icons.receipt_long),
-                    title: Text('我的订单'),
-                    trailing: Icon(Icons.chevron_right),
-                  ),
-                  Divider(height: 1),
-                  ListTile(
-                    leading: Icon(Icons.favorite_border),
-                    title: Text('我的收藏'),
-                    trailing: Icon(Icons.chevron_right),
-                  ),
-                  Divider(height: 1),
-                  ListTile(
-                    leading: Icon(Icons.settings_outlined),
-                    title: Text('设置'),
-                    trailing: Icon(Icons.chevron_right),
-                  ),
-                ],
-              ),
-            ),
-          ],
+
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );
   }
+
+  Widget _buildProfileItem(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    bool isLast = false,
+  }) {
+    final theme = Theme.of(context);
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: theme.colorScheme.primary,
+      ),
+      title: Text(title),
+      trailing: const Icon(Icons.chevron_right),
+      onTap: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('$title 功能暂未实现（示例）')),
+        );
+      },
+    );
+  }
 }
+
+class _OrderStatusItem extends StatelessWidget {
+  const _OrderStatusItem({
+    required this.icon,
+    required this.label,
+    required this.badgeCount,
+  });
+
+  final IconData icon;
+  final String label;
+  final int badgeCount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        children: [
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Icon(
+                  icon,
+                  color: const Color(0xFFFF7D7D),
+                ),
+              ),
+              if (badgeCount > 0)
+                Positioned(
+                  right: -4,
+                  top: -4,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.redAccent,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      '$badgeCount',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 12,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 
