@@ -5,8 +5,6 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
       body: SafeArea(
@@ -124,7 +122,7 @@ class ProfilePage extends StatelessWidget {
 
               const SizedBox(height: 12),
 
-              // 下方功能列表（收货地址 / 优惠券 / 我的收藏 / 浏览记录 / 联系客服 / 设置 / 消息通知 / 我的钱包）
+              // 下方功能列表
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
@@ -252,7 +250,8 @@ class _OrderStatusItem extends StatelessWidget {
                   right: -4,
                   top: -4,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     decoration: BoxDecoration(
                       color: Colors.redAccent,
                       borderRadius: BorderRadius.circular(10),
@@ -282,5 +281,4 @@ class _OrderStatusItem extends StatelessWidget {
     );
   }
 }
-
 

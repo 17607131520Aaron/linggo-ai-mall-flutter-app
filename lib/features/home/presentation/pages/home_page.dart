@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../router/app_router.dart';
+import 'package:linggo_ai_mall_app/app/router/app_routes.dart';
+import 'package:linggo_ai_mall_app/features/home/data/mock/home_mock_data.dart';
+import 'package:linggo_ai_mall_app/features/home/domain/entities/home_category.dart';
+import 'package:linggo_ai_mall_app/features/home/domain/entities/recommend_product.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,35 +15,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _bannerIndex = 0;
 
-  final List<_HomeCategory> _categories = const [
-    _HomeCategory('女装', Icons.checkroom),
-    _HomeCategory('男装', Icons.male),
-    _HomeCategory('鞋靴', Icons.hiking),
-    _HomeCategory('箱包', Icons.shopping_bag_outlined),
-    _HomeCategory('配饰', Icons.watch),
-    _HomeCategory('美妆', Icons.brush_outlined),
-    _HomeCategory('家居', Icons.chair_outlined),
-    _HomeCategory('数码', Icons.phone_android),
-    _HomeCategory('运动', Icons.sports_soccer),
-    _HomeCategory('食品', Icons.lunch_dining_outlined),
-  ];
-
-  final List<_RecommendProduct> _recommendProducts = List.generate(
-    30,
-    (i) => _RecommendProduct(
-      title: [
-        '时尚连衣裙 夏季新款 修身显瘦 气质裙子',
-        '休闲T恤 男短袖纯棉宽松',
-        '运动鞋男透气跑步鞋',
-        '时尚女包 单肩包斜挎包',
-        '无线蓝牙耳机 入耳式降噪',
-        '智能手表 运动防水手环',
-      ][i % 6],
-      price: 89 + (i % 10) * 10,
-      originPrice: 129 + (i % 12) * 10,
-      sold: 120 + i * 37,
-    ),
-  );
+  final List<HomeCategory> _categories = HomeMockData.categories;
+  final List<RecommendProduct> _recommendProducts = HomeMockData.recommendProducts;
 
   @override
   Widget build(BuildContext context) {
@@ -254,8 +230,8 @@ class _CategoryGrid extends StatelessWidget {
     required this.onTap,
   });
 
-  final List<_HomeCategory> categories;
-  final ValueChanged<_HomeCategory> onTap;
+  final List<HomeCategory> categories;
+  final ValueChanged<HomeCategory> onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -313,7 +289,7 @@ class _ProductCard extends StatelessWidget {
     required this.onTap,
   });
 
-  final _RecommendProduct product;
+  final RecommendProduct product;
   final VoidCallback onTap;
 
   @override
@@ -398,26 +374,5 @@ class _ProductCard extends StatelessWidget {
       ),
     );
   }
-}
-
-class _HomeCategory {
-  const _HomeCategory(this.label, this.icon);
-
-  final String label;
-  final IconData icon;
-}
-
-class _RecommendProduct {
-  const _RecommendProduct({
-    required this.title,
-    required this.price,
-    required this.originPrice,
-    required this.sold,
-  });
-
-  final String title;
-  final int price;
-  final int originPrice;
-  final int sold;
 }
 

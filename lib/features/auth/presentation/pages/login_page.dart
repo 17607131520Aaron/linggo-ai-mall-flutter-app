@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../router/app_router.dart';
+import 'package:linggo_ai_mall_app/app/router/app_routes.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -57,7 +57,8 @@ class _LoginPageState extends State<LoginPage> {
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight - 32),
+                constraints:
+                    BoxConstraints(minHeight: constraints.maxHeight - 32),
                 child: IntrinsicHeight(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -222,7 +223,9 @@ class _LoginPageState extends State<LoginPage> {
                           TextButton(
                             onPressed: () {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('注册功能暂未实现（示例）')),
+                                const SnackBar(
+                                  content: Text('注册功能暂未实现（示例）'),
+                                ),
                               );
                             },
                             child: const Text('立即注册'),
@@ -230,7 +233,9 @@ class _LoginPageState extends State<LoginPage> {
                           TextButton(
                             onPressed: () {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('忘记密码功能暂未实现（示例）')),
+                                const SnackBar(
+                                  content: Text('忘记密码功能暂未实现（示例）'),
+                                ),
                               );
                             },
                             child: const Text('忘记密码'),

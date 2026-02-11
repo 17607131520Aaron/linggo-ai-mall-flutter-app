@@ -1,22 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../features/auth/presentation/login_page.dart';
-import '../features/home/presentation/home_page.dart';
-import '../features/home/presentation/main_tab_page.dart';
-import '../features/product/presentation/product_list_page.dart';
-import '../features/product/presentation/product_detail_page.dart';
-import '../features/cart/presentation/cart_page.dart';
-import '../features/profile/presentation/profile_page.dart';
-import '../shared/presentation/not_found_page.dart';
-
-class AppRoutes {
-  static const String login = '/';
-  static const String home = '/home';
-  static const String productList = '/products';
-  static const String productDetail = '/product_detail';
-  static const String cart = '/cart';
-  static const String profile = '/profile';
-}
+import 'package:linggo_ai_mall_app/app/presentation/pages/not_found_page.dart';
+import 'package:linggo_ai_mall_app/app/router/app_routes.dart';
+import 'package:linggo_ai_mall_app/features/auth/presentation/pages/login_page.dart';
+import 'package:linggo_ai_mall_app/features/cart/presentation/pages/cart_page.dart';
+import 'package:linggo_ai_mall_app/features/home/presentation/pages/main_tab_page.dart';
+import 'package:linggo_ai_mall_app/features/product/presentation/pages/product_detail_page.dart';
+import 'package:linggo_ai_mall_app/features/product/presentation/pages/product_list_page.dart';
+import 'package:linggo_ai_mall_app/features/profile/presentation/pages/profile_page.dart';
 
 class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {

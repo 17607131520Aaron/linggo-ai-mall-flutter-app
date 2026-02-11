@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:linggo_ai_mall_app/features/cart/data/mock/cart_mock_data.dart';
+import 'package:linggo_ai_mall_app/features/cart/domain/entities/cart_item.dart';
+import 'package:linggo_ai_mall_app/features/cart/domain/entities/cart_shop.dart';
+
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
 
@@ -11,54 +15,7 @@ class _CartPageState extends State<CartPage> {
   bool _editMode = false;
   bool _selectAll = false;
 
-  // 淘宝购物车常见：按店铺分组
-  final List<_CartShop> _shops = [
-    _CartShop(
-      shopName: 'Linggo 官方旗舰店',
-      items: [
-        _CartItem(
-          title: '无线蓝牙耳机 入耳式降噪',
-          sku: '黑色｜标准版',
-          price: 129,
-          originPrice: 199,
-          count: 1,
-        ),
-        _CartItem(
-          title: '智能手表 运动防水手环',
-          sku: '银色｜NFC',
-          price: 239,
-          originPrice: 299,
-          count: 2,
-        ),
-      ],
-    ),
-    _CartShop(
-      shopName: '精选生活馆',
-      items: [
-        _CartItem(
-          title: '时尚连衣裙 夏季新款 修身显瘦',
-          sku: 'S｜粉色',
-          price: 199,
-          originPrice: 269,
-          count: 1,
-        ),
-        _CartItem(
-          title: '运动鞋男透气跑步鞋 轻便耐磨',
-          sku: '42｜白黑',
-          price: 259,
-          originPrice: 329,
-          count: 1,
-        ),
-        _CartItem(
-          title: '时尚女包 单肩包斜挎包',
-          sku: '米白｜小号',
-          price: 159,
-          originPrice: 239,
-          count: 1,
-        ),
-      ],
-    ),
-  ];
+  final List<CartShop> _shops = CartMockData.initialShops();
 
   bool get _hasAnySelected {
     for (final s in _shops) {
@@ -114,14 +71,14 @@ class _CartPageState extends State<CartPage> {
     _selectAll = value;
   }
 
-  void _setShopSelected(_CartShop shop, bool value) {
+  void _setShopSelected(CartShop shop, bool value) {
     for (final i in shop.items) {
       i.selected = value;
     }
     _recalcSelectAll();
   }
 
-  bool _isShopAllSelected(_CartShop shop) {
+  bool _isShopAllSelected(CartShop shop) {
     if (shop.items.isEmpty) return false;
     return shop.items.every((e) => e.selected);
   }
@@ -236,7 +193,9 @@ class _CartPageState extends State<CartPage> {
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('结算 $_selectedCount 件，共 ¥$_totalPrice（示例）')),
+                    SnackBar(
+                      content: Text('结算 $_selectedCount 件，共 ¥$_totalPrice（示例）'),
+                    ),
                   );
                 }
               },
@@ -256,13 +215,13 @@ class _ShopCard extends StatelessWidget {
     required this.onItemDeleted,
   });
 
-  final _CartShop shop;
+  final CartShop shop;
   final bool shopAllSelected;
   final bool editMode;
   final ValueChanged<bool> onShopToggle;
-  final void Function(_CartItem item, bool selected) onItemToggle;
-  final void Function(_CartItem item, int nextCount) onItemCountChanged;
-  final ValueChanged<_CartItem> onItemDeleted;
+  final void Function(CartItem item, bool selected) onItemToggle;
+  final void Function(CartItem item, int nextCount) onItemCountChanged;
+  final ValueChanged<CartItem> onItemDeleted;
 
   @override
   Widget build(BuildContext context) {
@@ -327,7 +286,7 @@ class _CartItemRow extends StatelessWidget {
     required this.onDeleted,
   });
 
-  final _CartItem item;
+  final CartItem item;
   final bool editMode;
   final ValueChanged<bool> onToggle;
   final ValueChanged<int> onCountChanged;
@@ -414,7 +373,11 @@ class _CartItemRow extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 4),
-                      const Icon(Icons.keyboard_arrow_down, size: 16, color: Colors.black45),
+                      const Icon(
+                        Icons.keyboard_arrow_down,
+                        size: 16,
+                        color: Colors.black45,
+                      ),
                     ],
                   ),
                 ),
@@ -465,7 +428,11 @@ class _CartItemRow extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 2),
-                      const Icon(Icons.more_horiz, size: 18, color: Colors.black45),
+                      const Icon(
+                        Icons.more_horiz,
+                        size: 18,
+                        color: Colors.black45,
+                      ),
                     ],
                   ),
                 ],
@@ -562,7 +529,8 @@ class _CartBottomBar extends StatelessWidget {
               child: FilledButton(
                 onPressed: hasAnySelected ? onPrimaryAction : null,
                 style: FilledButton.styleFrom(
-                  backgroundColor: editMode ? Colors.redAccent : Colors.deepOrangeAccent,
+                  backgroundColor:
+                      editMode ? Colors.redAccent : Colors.deepOrangeAccent,
                   disabledBackgroundColor: const Color(0xFFDDDDDD),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
@@ -690,34 +658,5 @@ class _TaobaoCheckbox extends StatelessWidget {
       ),
     );
   }
-}
-
-class _CartShop {
-  _CartShop({
-    required this.shopName,
-    required this.items,
-  });
-
-  final String shopName;
-  final List<_CartItem> items;
-}
-
-class _CartItem {
-  _CartItem({
-    required this.title,
-    required this.sku,
-    required this.price,
-    required this.originPrice,
-    required this.count,
-    this.selected = false,
-  }) : id = UniqueKey().toString();
-
-  final String id;
-  final String title;
-  final String sku;
-  final int price;
-  final int originPrice;
-  int count;
-  bool selected;
 }
 

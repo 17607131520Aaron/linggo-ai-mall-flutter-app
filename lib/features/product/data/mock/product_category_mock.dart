@@ -1,15 +1,5 @@
-import 'package:flutter/material.dart';
-
-/// 分类页（参考你提供的左侧分类 + 右侧网格的设计）
-class ProductListPage extends StatefulWidget {
-  const ProductListPage({super.key});
-
-  @override
-  State<ProductListPage> createState() => _ProductListPageState();
-}
-
-class _ProductListPageState extends State<ProductListPage> {
-  final List<String> _categories = [
+class ProductCategoryMock {
+  static const List<String> categories = [
     '女装',
     '男装',
     '手机',
@@ -26,7 +16,7 @@ class _ProductListPageState extends State<ProductListPage> {
     '家具',
   ];
 
-  final Map<String, List<String>> _subCategoryMap = {
+  static const Map<String, List<String>> subCategoryMap = {
     '女装': [
       '春季新款 优',
       '夏季热卖 精',
@@ -310,131 +300,8 @@ class _ProductListPageState extends State<ProductListPage> {
     ],
   };
 
-  int _selectedIndex = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final String currentCategory = _categories[_selectedIndex];
-    final subList = _getSubCategories(currentCategory);
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Row(
-          children: [
-            // 左侧分类导航
-            Container(
-              width: 80,
-              color: const Color(0xFFF7F7F7),
-              child: ListView.builder(
-                itemCount: _categories.length,
-                itemBuilder: (context, index) {
-                  final selected = index == _selectedIndex;
-                  final text = _categories[index];
-                  return InkWell(
-                    onTap: () {
-                      setState(() {
-                        _selectedIndex = index;
-                      });
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      decoration: BoxDecoration(
-                        color: selected ? Colors.white : Colors.transparent,
-                        border: Border(
-                          left: BorderSide(
-                            color:
-                                selected ? Colors.redAccent : Colors.transparent,
-                            width: 3,
-                          ),
-                        ),
-                      ),
-                      child: Text(
-                        text,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: selected ? Colors.redAccent : Colors.black87,
-                          fontWeight:
-                              selected ? FontWeight.bold : FontWeight.normal,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-
-            // 右侧子分类网格
-            Expanded(
-              child: Container(
-                color: Colors.white,
-                padding: const EdgeInsets.all(12),
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 12,
-                    crossAxisSpacing: 12,
-                    childAspectRatio: 0.9,
-                  ),
-                  itemCount: subList.length,
-                  itemBuilder: (context, index) {
-                    final name = subList[index];
-                    return GestureDetector(
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('点击了 $name')),
-                        );
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF5F5F5),
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                  color: const Color(0xFFE0E0E0),
-                                ),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  '图',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            name,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              fontSize: 11,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  List<String> _getSubCategories(String category) {
-    final base = _subCategoryMap[category];
+  static List<String> getSubCategories(String category) {
+    final base = subCategoryMap[category];
     if (base != null && base.isNotEmpty) {
       // 为了更明显的滑动效果：把已有子分类扩展到 36 个左右
       if (base.length >= 36) return base;

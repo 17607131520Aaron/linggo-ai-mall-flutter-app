@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../cart/presentation/cart_page.dart';
-import '../../product/presentation/product_list_page.dart';
-import '../../profile/presentation/profile_page.dart';
-import 'home_page.dart';
+import 'package:linggo_ai_mall_app/features/cart/presentation/pages/cart_page.dart';
+import 'package:linggo_ai_mall_app/features/home/presentation/pages/home_page.dart';
+import 'package:linggo_ai_mall_app/features/product/presentation/pages/product_list_page.dart';
+import 'package:linggo_ai_mall_app/features/profile/presentation/pages/profile_page.dart';
 
 class MainTabPage extends StatefulWidget {
   const MainTabPage({super.key});
